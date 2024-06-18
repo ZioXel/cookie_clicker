@@ -1,4 +1,4 @@
-# Cookie Clicker
+# Cookie Clicker Łukasz 157114
 
 ## 1. Struktura systemu
 
