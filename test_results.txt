@@ -1,0 +1,5 @@
+Click button increases cookie count: Passed
+Upgrade button increases click value: Passed
+Buy Basic Factory button adds a Basic factory: Passed
+Buy Advanced Factory button adds an Advanced factory: Passed
+

@@ -6,10 +6,14 @@ import 'package:path/path.dart' as path;
 import 'dart:async';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyApp(client: http.Client())); // Inject the real client in production
 }
 
 class MyApp extends StatefulWidget {
+  final http.Client client;
+
+  MyApp({required this.client});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -68,7 +72,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _getState() async {
     try {
-      final response = await http.get(Uri.parse('http://127.0.0.1:8000/state'));
+      final response = await widget.client.get(Uri.parse('http://127.0.0.1:8000/state'));
       if (response.statusCode == 200) {
         final state = jsonDecode(response.body);
         setState(() {
@@ -86,7 +90,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _click() async {
     try {
-      final response = await http.post(Uri.parse('http://127.0.0.1:8000/click'));
+      final response = await widget.client.post(Uri.parse('http://127.0.0.1:8000/click'));
       if (response.statusCode == 200) {
         final state = jsonDecode(response.body);
         setState(() {
@@ -100,7 +104,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _upgrade() async {
     try {
-      final response = await http.post(Uri.parse('http://127.0.0.1:8000/upgrade'));
+      final response = await widget.client.post(Uri.parse('http://127.0.0.1:8000/upgrade'));
       if (response.statusCode == 200) {
         final state = jsonDecode(response.body);
         setState(() {
@@ -116,7 +120,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _buyBasicFactory() async {
     try {
-      final response = await http.post(Uri.parse('http://127.0.0.1:8000/buy_basic_factory'));
+      final response = await widget.client.post(Uri.parse('http://127.0.0.1:8000/buy_basic_factory'));
       if (response.statusCode == 200) {
         final state = jsonDecode(response.body);
         setState(() {
@@ -131,7 +135,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _buyAdvancedFactory() async {
     try {
-      final response = await http.post(Uri.parse('http://127.0.0.1:8000/buy_advanced_factory'));
+      final response = await widget.client.post(Uri.parse('http://127.0.0.1:8000/buy_advanced_factory'));
       if (response.statusCode == 200) {
         final state = jsonDecode(response.body);
         setState(() {
@@ -146,7 +150,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _resetGame() async {
     try {
-      final response = await http.post(Uri.parse('http://127.0.0.1:8000/reset_game'));
+      final response = await widget.client.post(Uri.parse('http://127.0.0.1:8000/reset_game'));
       if (response.statusCode == 200) {
         final state = jsonDecode(response.body);
         setState(() {

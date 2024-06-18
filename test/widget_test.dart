@@ -15,7 +15,7 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/click')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 1}', 200));
 
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
     await tester.tap(find.text('Click!'));
     await tester.pump();
 
@@ -30,7 +30,7 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/upgrade')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "click_value": 2, "upgrade_cost": 20}', 200));
 
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
     await tester.tap(find.text('Upgrade (Cost: 10)'));
     await tester.pump();
 
@@ -45,7 +45,7 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/buy_basic_factory')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "factories": [{"production_rate": 1}]}', 200));
 
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
     await tester.tap(find.text('Buy Basic Factory (Cost: 10)'));
     await tester.pump();
 
@@ -60,7 +60,7 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/buy_advanced_factory')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "factories": [{"production_rate": 2}]}', 200));
 
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
     await tester.tap(find.text('Buy Advanced Factory (Cost: 20)'));
     await tester.pump();
 
@@ -75,7 +75,7 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/reset_game')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "click_value": 1, "upgrade_cost": 10, "factories": []}', 200));
 
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
     await tester.tap(find.text('Reset Game'));
     await tester.pump();
 
@@ -92,7 +92,7 @@ void main() {
     when(mockClient.get(Uri.parse('http://127.0.0.1:8000/state')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 10, "click_value": 1, "upgrade_cost": 10, "factories": []}', 200));
 
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
     await tester.pump(Duration(seconds: 1));
 
     expect(find.text('Cookies: 10'), findsOneWidget);
