@@ -4,10 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:cookie_clicker/main.dart';
-import 'mock_client.mocks.dart'; // Ensure this is the correct mock file name
+import 'mock_client.mocks.dart'; 
 
 void main() {
-  // Initialize StringBuffer to store test results
+ 
   StringBuffer testResultsBuffer = StringBuffer();
 
   testWidgets('Click button increases cookie count', (WidgetTester tester) async {
@@ -15,13 +15,12 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/click')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 1}', 200));
 
-    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
+    await tester.pumpWidget(MyApp(client: mockClient)); 
     await tester.tap(find.text('Click!'));
     await tester.pump();
 
     expect(find.text('Cookies: 1'), findsOneWidget);
 
-    // Add test result to StringBuffer
     testResultsBuffer.writeln('Click button increases cookie count: Passed');
   });
 
@@ -30,13 +29,13 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/upgrade')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "click_value": 2, "upgrade_cost": 20}', 200));
 
-    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
+    await tester.pumpWidget(MyApp(client: mockClient)); 
     await tester.tap(find.text('Upgrade (Cost: 10)'));
     await tester.pump();
 
     expect(find.text('Upgrade (Cost: 20)'), findsOneWidget);
 
-    // Add test result to StringBuffer
+  
     testResultsBuffer.writeln('Upgrade button increases click value: Passed');
   });
 
@@ -45,13 +44,13 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/buy_basic_factory')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "factories": [{"production_rate": 1}]}', 200));
 
-    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
+    await tester.pumpWidget(MyApp(client: mockClient));
     await tester.tap(find.text('Buy Basic Factory (Cost: 10)'));
     await tester.pump();
 
     expect(find.textContaining('Factories: Basic'), findsOneWidget);
 
-    // Add test result to StringBuffer
+  
     testResultsBuffer.writeln('Buy Basic Factory button adds a Basic factory: Passed');
   });
 
@@ -60,13 +59,13 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/buy_advanced_factory')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "factories": [{"production_rate": 2}]}', 200));
 
-    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
+    await tester.pumpWidget(MyApp(client: mockClient)); 
     await tester.tap(find.text('Buy Advanced Factory (Cost: 20)'));
     await tester.pump();
 
     expect(find.textContaining('Factories: Advanced'), findsOneWidget);
 
-    // Add test result to StringBuffer
+  
     testResultsBuffer.writeln('Buy Advanced Factory button adds an Advanced factory: Passed');
   });
 
@@ -75,7 +74,7 @@ void main() {
     when(mockClient.post(Uri.parse('http://127.0.0.1:8000/reset_game')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 0, "click_value": 1, "upgrade_cost": 10, "factories": []}', 200));
 
-    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
+    await tester.pumpWidget(MyApp(client: mockClient)); 
     await tester.tap(find.text('Reset Game'));
     await tester.pump();
 
@@ -83,7 +82,6 @@ void main() {
     expect(find.text('Upgrade (Cost: 10)'), findsOneWidget);
     expect(find.textContaining('Factories: '), findsNothing);
 
-    // Add test result to StringBuffer
     testResultsBuffer.writeln('Reset Game button resets the game state: Passed');
   });
 
@@ -92,16 +90,16 @@ void main() {
     when(mockClient.get(Uri.parse('http://127.0.0.1:8000/state')))
         .thenAnswer((_) async => http.Response('{"cookie_count": 10, "click_value": 1, "upgrade_cost": 10, "factories": []}', 200));
 
-    await tester.pumpWidget(MyApp(client: mockClient)); // Pass mockClient here
+    await tester.pumpWidget(MyApp(client: mockClient));
     await tester.pump(Duration(seconds: 1));
 
     expect(find.text('Cookies: 10'), findsOneWidget);
 
-    // Add test result to StringBuffer
+  
     testResultsBuffer.writeln('Server state updates UI every second: Passed');
   });
 
-  // Save test results to a file after all tests have run
+
   tearDownAll(() async {
     var testFilePath = './test_results.txt';
     var file = File(testFilePath);
